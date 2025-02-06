@@ -21,6 +21,18 @@ pub enum AppError {
         source: toml::de::Error,
     },
 
+    #[error("Reqwest Invalid Header Value.")]
+    ReqwestInvalidHeaderValueError {
+        #[from]
+        source: reqwest::header::InvalidHeaderValue,
+    },
+
+    #[error("Serde JSON error")]
+    SersdeJsonError {
+        #[from]
+        source: serde_json::Error,
+    },
+
     #[error("An unknown error occured.")]
     UnknownError,
 }

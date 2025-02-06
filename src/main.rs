@@ -14,10 +14,10 @@ pub async fn main() -> Result<(), AppError> {
         app_config
     });
 
-    let _ = cli_router(app_state.clone());
+    let _ = cli_router(app_state.clone()).await?;
 
-    dbg!(&app_state.args);
-    dbg!(&app_state.app_config);
+    // dbg!(&app_state.args);
+    // dbg!(&app_state.app_config);
 
     Ok(())
 }
