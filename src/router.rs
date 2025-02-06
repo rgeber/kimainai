@@ -1,32 +1,30 @@
 use std::sync::Arc;
-use reqwest::Response;
+use crate::args::CliCommands;
 use crate::error::AppError;
-use crate::kimai::customer::Customer;
 use crate::state::AppState;
 
 pub async fn cli_router(app_state: Arc<AppState>) -> Result<(), AppError> {
 
-    match &app_state.args.command {
-        Some(command) => {
-            match command {
-                ListCustomers => Some(crate::kimai::customer::list::list_customers(app_state.clone()).await?),
-
-            }
-        },
+    let command: Option<CliCommands> = match &app_state.args.command {
+        Some(command) => Some(command.to_owned()),
         None => None
     };
-    // let t = x.unwrap().text().await.unwrap();
-    // dbg!(t);
-    //
 
-    // dbg!(&x.unwrap().json().await.unwrap());
-    //
-    // let p: Vec<Customer> = match x {
-    //     Some(res ) => serde_json::from_str(res.text().await?.as_str())?,
-    //     None=> Vec::new()
-    // };
-    //
-    // dbg!(p);
+    if command.is_none() {
+        println!("No Command given. Have a nice day.");
+        return Ok(());
+    }
+
+    let command = command.unwrap();
+
+    match command {
+        CliCommands::ListCustomers { list: _ } => {
+            crate::kimai::customer::list::print_customer_list(app_state.clone()).await?
+        },
+        CliCommands::ListProjects {} => {
+            crate::kimai::projects::list::print_project_list(app_state.clone()).await?;
+        }
+    }
 
     Ok(())
 }

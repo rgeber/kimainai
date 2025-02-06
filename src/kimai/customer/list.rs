@@ -1,34 +1,31 @@
 use std::sync::Arc;
-use reqwest::{Client, Response};
+use reqwest::Client;
 use crate::error::AppError;
 use crate::kimai::api::{get_api_url, get_request_header};
 use crate::kimai::customer::{Customer};
 use crate::state::AppState;
 
-pub async fn fetch_customers_from_api(app_state: Arc<AppState>) -> Result<Response, AppError> {
-    let req_url = get_api_url(app_state.clone(), "customers")?;
-
-    // Create HTTP client
+pub async fn fetch_customers_from_api(app_state: Arc<AppState>) -> Result<Vec<Customer>, AppError> {
     let client = Client::new();
 
-    // Get headers from function
+    let req_url = get_api_url(app_state.clone(), "customers")?;
     let headers = get_request_header(app_state.clone())?;
 
-    // Make the GET request
     let response = client
         .get(req_url)
         .headers(headers)
         .send()
         .await?;
 
-    Ok(response)
-}
-
-pub async fn list_customers(app_state: Arc<AppState>) -> Result<(), AppError> {
-
-    let response = fetch_customers_from_api(app_state.clone()).await?;
     let mut customers: Vec<Customer> = response.json().await?;
     customers.sort_by_key(|c| c.id);
+
+    Ok(customers)
+}
+
+pub async fn print_customer_list(app_state: Arc<AppState>) -> Result<(), AppError> {
+
+    let customers = fetch_customers_from_api(app_state.clone()).await?;
 
     for customer in customers.iter() {
         let customer_id = customer.id;

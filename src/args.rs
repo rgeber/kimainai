@@ -21,4 +21,7 @@ pub enum CliCommands {
         #[arg(short, long)]
         list: bool,
     },
+
+
+    ListProjects {},
 }
