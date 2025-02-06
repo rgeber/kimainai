@@ -21,7 +21,10 @@ pub enum CliCommands {
         #[arg(short, long)]
         list: bool,
     },
-
-
     ListProjects {},
+    ListActivities {
+        /// Limit output to a specific project ID
+        #[arg(short='p', long)]
+        project_id: Option<u32>,
+    },
 }
