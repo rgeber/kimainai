@@ -15,6 +15,8 @@ pub struct Args {
 
 #[derive(Subcommand, Debug, Clone)]
 pub enum CliCommands {
+    /// Fetch information for your user
+    GetMe {},
     /// List all customers
     ListCustomers {
         // Todo: Delete
@@ -22,13 +24,16 @@ pub enum CliCommands {
         #[arg(short, long)]
         list: bool,
     },
+    /// List all Projects
     ListProjects {},
+    /// List all Activities
     ListActivities {
         /// Limit output to a specific project ID
         #[arg(short='p', long)]
         project_id: Option<u32>,
     },
-    FileWorkDay {
+    /// File a single workday. Default values are taken from config file
+    FileWorkday {
         /// User ID - queried from API if not set.
         #[arg(short='u', long)]
         user_id: Option<u32>,

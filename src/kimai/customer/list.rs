@@ -2,7 +2,7 @@ use std::sync::Arc;
 use reqwest::Client;
 use crate::error::AppError;
 use crate::kimai::api::{get_api_url, get_request_header};
-use crate::kimai::customer::{Customer};
+use crate::kimai::customer::Customer;
 use crate::state::AppState;
 
 pub async fn fetch_customers_from_api(app_state: Arc<AppState>) -> Result<Vec<Customer>, AppError> {

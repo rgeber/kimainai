@@ -6,6 +6,13 @@ pub mod teams;
 pub mod projects;
 pub mod activities;
 pub mod workday;
+pub mod user;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct  MetaField {}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct  Preference {
+    name: Option<String>,
+    value: Option<String>
+}
