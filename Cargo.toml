@@ -2,6 +2,16 @@
 name = "kimainai"
 version = "0.1.0"
 edition = "2021"
+description = "A bare bones Kimai CLI lient for people with strong aversions to time tracking."
+authors = ['Roman Geber <geber@b1-systms.de>']
+license = "MIT"
+
+[profile.release]
+codegen-units = 1 # Compile crates one after another so the compiler can optimize better
+lto = true # Enables link to optimizations
+opt-level = 2 # Optimize for binary size
+panic = "abort" # Strip expensive panic clean-up logic
+strip = true # Remove debug symbols
 
 [dependencies]
 clap = { version = "4.5.28", features = ["derive", "string"] }
