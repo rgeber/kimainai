@@ -1,11 +1,11 @@
 use std::path::PathBuf;
-use clap::{Parser, Subcommand};
+use clap::{Args, Parser, Subcommand};
 use crate::util::args::{default_config_path, expand_tilde};
 
 /// KimaiNai is an anti Kimai API client minimizing the need to interact with time tracking.
 #[derive(Parser, Debug, Clone)]
 #[command(version, about, long_about = None)]
-pub struct Args {
+pub struct AppArgs {
     #[arg(short='c', long, default_value = default_config_path().into_os_string(), value_parser=expand_tilde)]
     pub config_file: PathBuf,
 
@@ -33,69 +33,78 @@ pub enum CliCommands {
         project_id: Option<u32>,
     },
     /// File a single workday. Default values are taken from config file
-    FileWorkday {
-        /// User ID - queried from API if not set.
-        #[arg(short='u', long)]
-        user_id: Option<u32>,
+    FileWorkday(FileWorkdayArgs),
+}
 
-        /// Customer ID - query with list-customers
-        #[arg(short='c', long)]
-        customer_id: u32,
+#[derive(Args, Debug, Clone)]
+pub struct FileWorkdayArgs {
 
-        /// Activity ID - query with list-activities
-        #[arg(short='a', long)]
-        activitiy_id: u32,
+    /// User ID - queried from API if not set.
+    #[arg(short='u', long)]
+    pub user_id: Option<u32>,
 
-        /// Description text
-        #[arg(short='D', long)]
-        description: Option<String>,
+    /// Customer ID - query with list-customers
+    #[arg(short='c', long)]
+    pub customer_id: Option<u32>,
 
-        /// Fixed rate
-        #[arg(long, default_value_t=0)]
-        fixed_rate: u32,
+    /// Activity ID - query with list-activities
+    #[arg(short='a', long)]
+    pub activity_id: Option<u32>,
 
-        /// Hourly rate
-        #[arg(long, default_value_t=0)]
-        hourly_rate: u32,
+    /// Project ID - query with list-projects
+    #[arg(short='p', long)]
+    pub project_id: Option<u32>,
 
-        /// Value for exported
-        #[arg(long, default_value_t=false)]
-        exported: bool,
+    /// Description text
+    #[arg(short='D', long)]
+    pub description: Option<String>,
 
-        /// Value for billable
-        #[arg(long, default_value_t=false)]
-        billable: bool,
+    /// Fixed rate
+    #[arg(long, default_value_t=0)]
+    pub fixed_rate: u32,
 
-        /// Duration hours
-        #[arg(short='H', long)]
-        duration_hours: Option<u32>,
+    /// Hourly rate
+    #[arg(long, default_value_t=0)]
+    pub hourly_rate: u32,
 
-        /// Duration minutes
-        #[arg(short='i', long)]
-        duration_minutes: Option<u32>,
+    /// Value for exported
+    #[arg(long, default_value_t=false)]
+    pub exported: bool,
 
-        /// Start time year
-        #[arg(short='Y', long)]
-        start_time_year: Option<u32>,
+    /// Value for billable
+    #[arg(long, default_value_t=false)]
+    pub billable: bool,
 
-        /// Start time month
-        #[arg(short='M', long)]
-        start_time_month: Option<u32>,
+    /// Duration hours
+    #[arg(short='H', long)]
+    pub duration_hours: Option<u32>,
 
-        /// Start time day
-        #[arg(short='d', long)]
-        start_time_day: Option<u32>,
+    /// Duration minutes
+    #[arg(short='i', long)]
+    pub duration_minutes: Option<u32>,
 
-        /// Break time duration in minutes
-        #[arg(short='b', long)]
-        break_length: Option<u32>,
+    /// Start time year
+    #[arg(short='Y', long)]
+    pub start_time_year: Option<u32>,
 
-        /// Break time start hour
-        #[arg(long)]
-        break_start_hour: Option<u32>,
+    /// Start time month
+    #[arg(short='M', long)]
+    pub start_time_month: Option<u32>,
 
-        /// Break time start minute
-        #[arg(long)]
-        break_start_minute: Option<u32>,
-    },
+    /// Start time day
+    #[arg(short='d', long)]
+    pub start_time_day: Option<u32>,
+
+    /// Break time duration in minutes
+    #[arg(short='b', long, default_value_t=0)]
+    pub break_length: u32,
+
+    /// Break time start hour
+    #[arg(long, default_value_t=24)]
+    pub break_start_hour: u32,
+
+    /// Break time start minute
+    #[arg(long, default_value_t=60)]
+    pub break_start_minute: u32,
+
 }

@@ -6,6 +6,7 @@ use crate::error::AppError;
 pub struct AppConfig {
     pub api: AppConfigApi,
     pub workday: AppConfigWorkday,
+    pub defaults: AppConfigDefaults,
 }
 
 #[derive(Deserialize, Clone, Debug)]
@@ -20,6 +21,13 @@ pub struct AppConfigWorkday {
     pub break_hour: u32,
     pub break_minute: u32,
     pub break_duration: u32,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+pub struct AppConfigDefaults {
+    pub project_id: u32,
+    pub activity_id: u32,
+    pub customer_id: u32,
 }
 
 pub fn parse_config_file(config_file_path: &PathBuf) -> Result<AppConfig, AppError> {

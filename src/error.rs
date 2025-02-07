@@ -3,6 +3,9 @@ use thiserror::Error;
 #[derive(Debug, Error)]
 pub enum AppError {
 
+    #[error("App Config error")]
+    ConfigError(String),
+
     #[error("Reqwest Error.")]
     ReqwestError {
         #[from]

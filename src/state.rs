@@ -1,7 +1,7 @@
-use crate::args::Args;
+use crate::args::AppArgs;
 use crate::config::AppConfig;
 
 pub struct AppState {
-    pub args: Args,
+    pub args: AppArgs,
     pub app_config: AppConfig,
 }

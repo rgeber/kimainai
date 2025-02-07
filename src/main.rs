@@ -7,7 +7,7 @@ use kimainai::state::AppState;
 
 #[tokio::main]
 pub async fn main() -> Result<(), AppError> {
-    let args = kimainai::args::Args::parse();
+    let args = kimainai::args::AppArgs::parse();
     let app_config = parse_config_file(&args.config_file)?;
     let app_state = Arc::new(AppState {
         args,
