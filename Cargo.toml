@@ -2,7 +2,7 @@
 name = "kimainai"
 version = "0.1.0"
 edition = "2021"
-description = "A bare bones Kimai CLI lient for people with strong aversions to time tracking."
+description = "A simple CLI client for Kimai time tracking mainly useful to bulk enter work times."
 authors = ['Roman Geber <geber@b1-systms.de>']
 license = "MIT"
 
