@@ -2,11 +2,22 @@
 
 A CLI client for Kimai time tracking designed for people with strong aversions to time tracking and or Kimai.
 
+## Build and install
+
+At this stage I haven't set up any build pipelines (lazy, sorry). But building it is quite easy:
+
+* Make sure you have Rust installed: https://www.rust-lang.org/tools/install
+* Enter the project directory and run `cargo build -r`
+* The binary you want will be `./target/release/kimainai`
+* Enjoy
+
 ## Motivation
 
-Time tracking isn't for me. I reject it deeply and generally refuse to work by the hour. I just doesn't work for me.
+I don't work by the hour, ever. However some projects may still need entries into their time tracking tools (in this case that's Kimai which is a decent tool). Yet instead of fighting my way through the UI entering a few months worth of work times that are essentially exactly the same every day and hating every second of this process I fired up my editor instead.
 
-However some contact with time tracking tools such a Kimai seems unavoidable at times. To minimize contact and keep my blood from boiling trying to enter a month's worth of work activity I simply wrote this CLI utility.
+Spending a bit of time sharpening my fledling Rust skills and gaining experience with the chrono library seemed to a much better use of my time and certainly more enjoyable.
+
+Kimainai is by no means complete nor is it meant to be a polished product. It's a hack fixing a particuluarily unpeasent part of my work life that works for me. If you find it useful then all the better. Feel free to add features you might need.
 
 ## Set a Kimai API Password
 
@@ -97,3 +108,6 @@ Nothing yet ... if you run into issues please open an issue.
 
 * The tool may not be very good at dealing with entries spanning multiple days
 * There are **NO** tests. I was lazy ... sorry.
+* Testes only on Linux. Windows and MacOS users may experience issues. However nothing should prevent usage on any platform you choose.
+* No binary pipeline yet. *TODO*
+* No official publication (e.g. to use `cargo install`). *TODO*
