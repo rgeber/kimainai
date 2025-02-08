@@ -1,6 +1,6 @@
 [package]
 name = "kimainai"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "A simple CLI client for Kimai time tracking mainly useful to bulk enter work times."
 authors = ['Roman Geber <geber@b1-systms.de>']
