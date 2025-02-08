@@ -95,10 +95,7 @@ let tags:String = "".to_string();
 
         let _ = post_timesheet(app_state.clone(), &args, &timesheet).await?;
     }
-
-
     Ok(())
-
 }
 
 pub async fn bulk_file_work_days(app_state: Arc<AppState>, args: BulkFileWorkdaysArgs) -> Result<(), AppError> {
@@ -145,18 +142,32 @@ pub async fn bulk_file_work_days(app_state: Arc<AppState>, args: BulkFileWorkday
             continue;
         }
 
-        println!("{}", process_day.to_rfc2822());
-
         if process_day > last_day {
             break
         }
 
-        if days_processed > 365 {
-            break
-        }
-    }
+        println!("Processing: {}", process_day.to_rfc2822());
 
-    println!("Processed {} days", days_processed);
+        // Construct a set of arguments for the regular single day function for reuse.
+        let file_args = FileWorkdayArgs{
+            activity_id: args.activity_id.clone(),
+            project_id: args.project_id.clone(),
+            description: args.description.clone(),
+            duration_hours: args.duration_hours.clone(),
+            duration_minutes: args.duration_minutes.clone(),
+            start_time_year: Some(process_day.year() as u32),
+            start_time_month: Some(process_day.month()),
+            start_time_day: Some(process_day.day()),
+            start_time_hour: Some(process_day.hour()),
+            start_time_minute: Some(process_day.minute()),
+            break_duration: args.break_duration.clone(),
+            break_start_hour: args.break_start_hour.clone(),
+            break_start_minute: args.break_start_minute.clone(),
+        };
+
+        let _ = file_work_day(app_state.clone(), file_args).await?;
+
+    }
 
     Ok(())
 }
