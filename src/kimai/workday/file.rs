@@ -1,7 +1,8 @@
 use std::sync::Arc;
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Local, TimeDelta};
 use reqwest::Client;
-use crate::args::FileWorkdayArgs;
+use chrono::prelude::*;
+use crate::args::{BulkFileWorkdaysArgs, FileWorkdayArgs};
 use crate::error::AppError;
 use crate::error::AppError::TimeSheetTransmissionError;
 use crate::kimai::api::{get_api_url, get_request_header};
@@ -98,4 +99,64 @@ let tags:String = "".to_string();
 
     Ok(())
 
+}
+
+pub async fn bulk_file_work_days(app_state: Arc<AppState>, args: BulkFileWorkdaysArgs) -> Result<(), AppError> {
+
+    let start_time_hour = match args.start_time_hour {
+        Some(value) => value,
+        None => app_state.app_config.workday.start_hour
+    };
+
+    let start_time_minute = match args.start_time_minute {
+        Some(value) => value,
+        None => app_state.app_config.workday.start_minute
+    };
+
+    let first_day = Local.with_ymd_and_hms(
+        args.first_day_year,
+        args.first_day_month,
+        args.first_day_day,
+        start_time_hour,
+        start_time_minute,
+        0
+    ).unwrap();
+
+    let last_day = Local.with_ymd_and_hms(
+        args.last_day_year,
+        args.last_day_month,
+        args.last_day_day,
+        start_time_hour,
+        start_time_minute,
+        0
+    ).unwrap();
+
+    let exclude_days = args.exclude_days;
+
+    let mut days_processed = 0;
+
+    loop {
+        let day_td = TimeDelta::try_days(days_processed).unwrap();
+        let process_day = first_day.clone() + day_td;
+        days_processed += 1;
+
+        let x = process_day.weekday();
+        if exclude_days.contains(&x) {
+            continue;
+        }
+
+        println!("{}", process_day.to_rfc2822());
+
+        if process_day > last_day {
+            break
+        }
+
+        if days_processed > 365 {
+            break
+        }
+    }
+
+    println!("Processed {} days", days_processed);
+
+    Ok(())
 }

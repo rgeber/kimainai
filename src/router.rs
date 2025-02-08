@@ -22,9 +22,8 @@ pub async fn cli_router(app_state: Arc<AppState>) -> Result<(), AppError> {
         CliCommands::ListCustomers { list: _ } => crate::kimai::customer::list::print_customer_list(app_state.clone()).await?,
         CliCommands::ListProjects {} => crate::kimai::projects::list::print_project_list(app_state.clone()).await?,
         CliCommands::ListActivities { project_id } => crate::kimai::activities::list::print_activities_list(app_state.clone(), project_id).await?,
-        CliCommands::FileWorkday(args) => {
-            crate::kimai::workday::file::file_work_day(app_state.clone(), args).await?
-        }
+        CliCommands::FileWorkday(args) => crate::kimai::workday::file::file_work_day(app_state.clone(), args).await?,
+        CliCommands::BulkFileWorkdays(args) => crate::kimai::workday::file::bulk_file_work_days(app_state.clone(), args).await?,
     }
 
     Ok(())
