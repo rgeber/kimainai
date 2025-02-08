@@ -39,14 +39,6 @@ pub enum CliCommands {
 #[derive(Args, Debug, Clone)]
 pub struct FileWorkdayArgs {
 
-    /// User ID - queried from API if not set.
-    #[arg(short='u', long)]
-    pub user_id: Option<u32>,
-
-    /// Customer ID - query with list-customers
-    #[arg(short='c', long)]
-    pub customer_id: Option<u32>,
-
     /// Activity ID - query with list-activities
     #[arg(short='a', long)]
     pub activity_id: Option<u32>,
@@ -59,28 +51,12 @@ pub struct FileWorkdayArgs {
     #[arg(short='D', long)]
     pub description: Option<String>,
 
-    /// Fixed rate
-    #[arg(long, default_value_t=0)]
-    pub fixed_rate: u32,
-
-    /// Hourly rate
-    #[arg(long, default_value_t=0)]
-    pub hourly_rate: u32,
-
-    /// Value for exported
-    #[arg(long, default_value_t=false)]
-    pub exported: bool,
-
-    /// Value for billable
-    #[arg(long, default_value_t=false)]
-    pub billable: bool,
-
     /// Duration hours
-    #[arg(short='H', long)]
+    #[arg(long)]
     pub duration_hours: Option<u32>,
 
     /// Duration minutes
-    #[arg(short='i', long)]
+    #[arg(long)]
     pub duration_minutes: Option<u32>,
 
     /// Start time year
@@ -95,16 +71,24 @@ pub struct FileWorkdayArgs {
     #[arg(short='d', long)]
     pub start_time_day: Option<u32>,
 
+    /// Start time month
+    #[arg(short='H', long)]
+    pub start_time_hour: Option<u32>,
+
+    /// Start time hour
+    #[arg(short='i', long)]
+    pub start_time_minute: Option<u32>,
+
     /// Break time duration in minutes
-    #[arg(short='b', long, default_value_t=0)]
-    pub break_length: u32,
+    #[arg(short='b', long)]
+    pub break_duration: Option<u32>,
 
     /// Break time start hour
-    #[arg(long, default_value_t=24)]
-    pub break_start_hour: u32,
+    #[arg(long)]
+    pub break_start_hour: Option<u32>,
 
     /// Break time start minute
-    #[arg(long, default_value_t=60)]
-    pub break_start_minute: u32,
+    #[arg(long)]
+    pub break_start_minute: Option<u32>,
 
 }

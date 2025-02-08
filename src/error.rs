@@ -3,6 +3,9 @@ use thiserror::Error;
 #[derive(Debug, Error)]
 pub enum AppError {
 
+    #[error("Timesheet submission error")]
+    TimeSheetTransmissionError(String),
+
     #[error("App Config error")]
     ConfigError(String),
 

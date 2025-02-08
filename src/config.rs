@@ -21,13 +21,16 @@ pub struct AppConfigWorkday {
     pub break_hour: u32,
     pub break_minute: u32,
     pub break_duration: u32,
+    pub start_hour: u32,
+    pub start_minute: u32,
+    pub duration_hours: u32,
+    pub duration_minutes: u32,
 }
 
 #[derive(Deserialize, Clone, Debug)]
 pub struct AppConfigDefaults {
     pub project_id: u32,
     pub activity_id: u32,
-    pub customer_id: u32,
 }
 
 pub fn parse_config_file(config_file_path: &PathBuf) -> Result<AppConfig, AppError> {

@@ -13,5 +13,5 @@ pub fn get_request_header(app_state: Arc<AppState>) -> Result<HeaderMap, AppErro
 
 pub fn get_api_url(app_state: Arc<AppState>, endpoint: &str) -> Result<String, AppError> {
     let api_base_url = app_state.app_config.api.url.as_str();
-    Ok(format!("{api_base_url}/{endpoint}/"))
+    Ok(format!("{api_base_url}/{endpoint}"))
 }
